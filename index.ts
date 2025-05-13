@@ -1,121 +1,23 @@
-// Необходимо типизировать этот большой объект
-// Свойство futureClasses должно быть в зависимости от classes по типу
-// Свойства exClients и futureClients тоже должны быть в зависимости от currClients
-// ИЛИ все три зависят от общего родителя
-
-// Простыми словами: при добавлении свойства в целевой объект они должны быть
-// автоматически добавлены в зависимые (сразу подсказка от TS)
-
-// Интерфейсы
-interface BaseClass {
-    name: string;
-    duration: number;
+// Функция для рассчета
+function calculate(a: number, b: number): number {
+    return a * b;
 }
 
-interface CurrentClass extends BaseClass {
-    startsAt: string | number;
+// Ссылка на функцию calculate через typeof
+type CalculateRT = ReturnType<typeof calculate>;
+
+let anotherRes: CalculateRT = 5; // success
+// let anotherRes: CalculateRT = "5"; // error
+
+// Получаем кортеж параметров "[a: number, b: number]"
+type CalculatePT = Parameters<typeof calculate>;
+// Фиксируем значение number для аргумента a
+type PT1 = Parameters<(a: number) => number>;
+// Передаём generic тип -- вывод (Unknown) тк T - любой тип
+type PT2 = Parameters<<T>(arg: T) => T>;
+
+class Example {
+    constructor(a: number) {}
 }
-
-interface FutureClass extends BaseClass {
-    willStartsAt: string | number;
-}
-
-interface BaseClient {
-    name: string;
-}
-
-interface CurrClients extends BaseClient {
-    age: number | string;
-    gender: string;
-    timeLeft: string;
-}
-
-interface ExClients extends BaseClient {
-    age: string | number;
-    gender: string;
-    makeCallFor: Date;
-}
-
-interface FutureClients extends BaseClient {
-    makeCallFor: Date;
-}
-
-interface FitnessClubCenter {
-    clubName: string;
-    location: string;
-    classes: CurrentClass[];
-    futureClasses: FutureClass[];
-    currClients: CurrClients[];
-    exClients: ExClients[];
-    futureClients: FutureClients[];
-}
-
-const fitnessClubCenter: FitnessClubCenter = {
-    clubName: "Fitness club Center",
-    location: "central ave. 45, 5th floor",
-    classes: [
-        {
-            name: "yoga",
-            startsAt: "8:00 AM",
-            duration: 60,
-        },
-        {
-            name: "trx",
-            startsAt: "11:00 AM",
-            duration: 45,
-        },
-        {
-            name: "swimming",
-            startsAt: "3:00 PM",
-            duration: 70,
-        },
-    ],
-    futureClasses: [
-        {
-            name: "boxing",
-            willStartsAt: "6:00 PM",
-            duration: 40,
-        },
-        {
-            name: "breath training",
-            willStartsAt: "8:00 PM",
-            duration: 30,
-        },
-    ],
-    currClients: [
-        {
-            name: "John Smith",
-            age: "-",
-            gender: "male",
-            timeLeft: "1 month",
-        },
-        {
-            name: "Alise Smith",
-            age: 35,
-            gender: "female",
-            timeLeft: "3 month",
-        },
-        {
-            name: "Ann Sonne",
-            age: 24,
-            gender: "female",
-            timeLeft: "5 month",
-        },
-    ],
-    exClients: [
-        {
-            name: "Tom Smooth",
-            age: 50,
-            gender: "male",
-            makeCallFor: new Date("2023-08-12"),
-        },
-    ],
-    futureClients: [
-        {
-            name: "Maria",
-            makeCallFor: new Date("2023-07-10"),
-        },
-    ],
-};
-
-// --- ЗАДАЧА ВЫПОЛНЕНА ---
+// Получаем параметры (аргументы) из класса Example
+type T0 = ConstructorParameters<typeof Example>;
