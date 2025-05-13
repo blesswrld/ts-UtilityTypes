@@ -50,7 +50,7 @@ interface FitnessClubCenter {
     futureClients: FutureClients[];
 }
 
-const fitnessClubCenter = {
+const fitnessClubCenter: FitnessClubCenter = {
     clubName: "Fitness club Center",
     location: "central ave. 45, 5th floor",
     classes: [
